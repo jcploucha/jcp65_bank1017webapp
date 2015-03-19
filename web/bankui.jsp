@@ -13,7 +13,7 @@
         <div class="row">
             <div class="jumbotron">
                 <h1 class="text-center">Welcome to Bank1017, DumDum!</h1>
-                <p class="text-center">You have the following permissions in the system: Poop, Poopbutt, Poopybutt</p>
+                <p class="text-center">You have the following permissions in the system: LOL, LMFAO, ROFLMAO</p>
             </div>
         </div>
         <div class="row">
