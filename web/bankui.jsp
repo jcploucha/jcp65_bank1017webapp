@@ -1,3 +1,4 @@
+<%@page import="edu.pitt.bank.Customer"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -19,7 +20,7 @@
         <div class="row">
             <div class="col-md-12">
                 <p>
-                    <select name="slctAccount" id="slctAccount" class="form-control">
+                    <select name="cboAccountList" id="cboAccountList" class="form-control">
                         <option value="1">Select Account:</option>
                         <option value="2">Trololololol</option>
                         <option value="3">Jajajajajaja</option>
@@ -54,7 +55,7 @@
                             <a href="transactionui.jsp" target="_blank">View Transactions</a>
                         </li>
                         <li class="list-group-item">
-                            <select name="slctAccount" id="slctAccount" class="form-control">
+                            <select name="cboTransactionType" id="cboTransactionType" class="form-control">
                                 <option value="1">Transaction Type:</option>
                                 <option value="2">Deposit</option>
                                 <option value="3">Withraw</option>
@@ -78,5 +79,15 @@
             </div>                
         </div>
     </div>
+
+    <% 
+        if(session.getAttribute("authenticatedUser") != null){
+            Customer authUser = (Customer) session.getAttribute("authenticatedUser");
+    %>        
+        }else{
+            out.print("you stoopid");
+    }
+
+    %>
     </body>
 </html>
