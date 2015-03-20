@@ -12,6 +12,7 @@ public class Bank {
 
 	private ArrayList<Account> accountList = new ArrayList<Account>();
 	private ArrayList<Customer> customerList = new ArrayList<Customer>();
+	private ArrayList<Account> accountsByCustomer = new ArrayList<Account>();
 
 	public Bank() {
 		loadAccounts();
@@ -42,7 +43,6 @@ public class Bank {
 			}
 		}
 		return null;
-
 	}
 
 	public Customer findCustomer(String customerID){
@@ -70,6 +70,17 @@ public class Bank {
 		} catch (SQLException e) {
 				e.printStackTrace();
 		}		
+	}
+
+	public ArrayList<Account> findAccountsByCustomer(String customerID){
+		for (int i = 0; i <= accountList.size() - 1; i++) {
+			for (int j = 0; j <= accountList.get(i).getAccountOwners().size() - 1; i++){
+				if (accountList.get(i).getAccountOwners().get(j).getCustomerID().equals(customerID)) {
+					accountsByCustomer.add(accountList.get(i));
+				}
+			}
+		}
+		return this.accountsByCustomer;
 	}
 
 }

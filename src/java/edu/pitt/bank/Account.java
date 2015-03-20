@@ -146,6 +146,9 @@ public class Account {
 	public void addAccountOwner(Customer accountOwner){
 		accountOwners.add(accountOwner);
 	}
+	public ArrayList<Customer> getAccountOwners(){
+		return this.accountOwners;
+	}
 	
 }
 
