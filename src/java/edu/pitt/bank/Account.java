@@ -44,7 +44,8 @@ public class Account {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+                }               
+        }
 		sql = "SELECT * FROM jcp65_bank1017.transaction ";
 		sql += "WHERE accountID = '" + accountID + "'";
 		try {
@@ -55,7 +56,9 @@ public class Account {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+		} finally {
+            db.closeDbConnection();      
+        }
 	}
 	
 	public Account(String accountType, double initialBalance){

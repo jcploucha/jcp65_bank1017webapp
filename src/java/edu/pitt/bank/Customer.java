@@ -50,7 +50,9 @@ public class Customer {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+		} finally {
+                    db.closeDbConnection();  
+                }
 		
 	}
 	

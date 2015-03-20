@@ -33,7 +33,9 @@ public class Transaction {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} finally {
+            db.closeDbConnection();      
+        }
 	}
 	
 	public Transaction(String accountID, String type, double amount, double balance){

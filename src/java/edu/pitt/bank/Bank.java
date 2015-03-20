@@ -31,7 +31,9 @@ public class Bank {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+		} finally {
+            db.closeDbConnection();      
+        }
 
 	}
 
@@ -69,7 +71,9 @@ public class Bank {
 			}
 		} catch (SQLException e) {
 				e.printStackTrace();
-		}		
+		} finally {
+                    db.closeDbConnection();
+                }	
 	}
 
 	public ArrayList<Account> findAccountsByCustomer(String customerID){

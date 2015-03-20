@@ -73,6 +73,16 @@ public class MySqlUtilities implements DbUtilities{
         }
     }
 
+    @Override
+    public void closeDbConnection() {
+        if(this.conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                ErrorLogger.log("broked");
+            }
+        }
+    }
 
     /**
      * Get SQL result set (data set) based on an SQL query
