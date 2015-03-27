@@ -1,6 +1,3 @@
-<!-- 2c508880-5d42-11e3-94ef-97beef767f1d acctID-->
-<!-- 527ed216-5d40-11e3-94ef-97beef767f1d custID -->
-
 <%@page import="edu.pitt.bank.Account"%>
 <%@page import="edu.pitt.bank.Bank"%>
 <%@page import="java.sql.ResultSet"%>

@@ -45,7 +45,7 @@ public class Account {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
                 }               
-        }
+        
 		sql = "SELECT * FROM jcp65_bank1017.transaction ";
 		sql += "WHERE accountID = '" + accountID + "'";
 		try {
