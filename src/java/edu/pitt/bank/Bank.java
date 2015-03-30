@@ -12,7 +12,7 @@ public class Bank {
 
 	private ArrayList<Account> accountList = new ArrayList<Account>();
 	private ArrayList<Customer> customerList = new ArrayList<Customer>();
-	private ArrayList<Account> accountsByCustomer = new ArrayList<Account>();
+	
 
 	public Bank() {
 		loadAccounts();
@@ -77,6 +77,7 @@ public class Bank {
 	}
 
 	public ArrayList<Account> findAccountsByCustomer(String customerID){
+                ArrayList<Account> accountsByCustomer = new ArrayList<Account>();
 		for (int i = 0; i <= accountList.size() - 1; i++) {
 			for (int j = 0; j <= accountList.get(i).getAccountOwners().size() - 1; i++){
 				if (accountList.get(i).getAccountOwners().get(j).getCustomerID().equals(customerID)) {
@@ -84,7 +85,7 @@ public class Bank {
 				}
 			}
 		}
-		return this.accountsByCustomer;
+		return accountsByCustomer;
 	}
          
 }

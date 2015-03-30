@@ -1,3 +1,4 @@
+<%@page import="edu.pitt.bank.Bank"%>
 <%@page import="edu.pitt.utilities.Security"%>
 <%@page import="edu.pitt.utilities.DbUtilities"%>
 <%@page import="edu.pitt.utilities.MySqlUtilities"%>
@@ -10,11 +11,17 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
         <title>Bank 1017 Login</title>
     </head>
     <body>
+        <% 
+            if (session.getAttribute("authenticatedUser") != null) {
+                response.sendRedirect("bankui.jsp");
+            }
+        %>
         <div class="container">
             <div class="jumbotron">
                 <h1 class="text-center">Welcome to Bank1017</h1>
@@ -40,6 +47,7 @@
         </div>
     
         <% 
+            
             String txtLogin, txtPin;
             txtLogin = request.getParameter("txtLogin");
             txtPin = request.getParameter("txtPin");
@@ -50,6 +58,8 @@
                     Customer cust = security.validateLogin(txtLogin, Integer.parseInt(txtPin));
                     session.setAttribute("authenticatedUser", cust);
                     out.print(cust.getFirstName() + " " + cust.getLastName());
+                    Bank bank = new Bank();
+                    session.setAttribute("bank", bank);
                     response.sendRedirect("bankui.jsp");
                 }else{
                     out.print("You must provide credentials to login");

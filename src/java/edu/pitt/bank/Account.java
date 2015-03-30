@@ -88,14 +88,14 @@ public class Account {
 	
 	public void withdraw(double amount){
 		this.balance -= amount;
-		createTransaction(this.accountID, this.type, amount, this.balance);
+		createTransaction(this.accountID, "withdrawal", amount, this.balance);
 		updateDatabaseAccountBalance();
 	}
 	
 	
 	public void deposit(double amount){
 		this.balance += amount;
-		createTransaction(this.accountID, this.type, amount, this.balance);
+		createTransaction(this.accountID, "deposit", amount, this.balance);
 		updateDatabaseAccountBalance();
 	}
 	
