@@ -19,21 +19,26 @@
                 var frmAccountDetails = document.getElementById("frmAccountDetails");
                 
                 if(cboAccountList.value != ""){
-                    // cboAccountList.value.submit();
                     frmAccountDetails.submit();
-                }                
+                } 
+                
             }
         </script>
         <title>Account Details</title>
     </head>
     <body>
     <% 
+
     Bank bank;
     if(session.getAttribute("authenticatedUser") != null && session.getAttribute("bank") != null){
+
+    System.out.println();
+
+    System.out.println(session.getId());
         
         Customer authUser = (Customer) session.getAttribute("authenticatedUser");      
         bank = (Bank) session.getAttribute("bank");
-        ArrayList<Account> accts = bank.findAccountsByCustomer(authUser.getCustomerID());        
+        ArrayList<Account> accts = bank.findAccountsByCustomer(authUser.getCustomerID());     
         
         //get permissions
         String permissions = "";
@@ -65,9 +70,18 @@
                         <option value="">Select Account:</option>
 
                         <% 
+                        
+                        String selectedAccount;
 
+                        if (session.getAttribute("selectedAccount") != null) {
+                            Account a = (Account) session.getAttribute("selectedAccount");
+                            selectedAccount = a.getAccountID();
+                        } else {
+                            selectedAccount = request.getParameter("cboAccountList");
+                        }
+ 
                         for (int i = 0; i <= accts.size() - 1; i++){ 
-                            String selectedAccount = request.getParameter("cboAccountList");
+                            //String selectedAccount = request.getParameter("cboAccountList");
                             if (selectedAccount == null) {
                                 selectedAccount = "";
                             }  
@@ -79,7 +93,6 @@
 
                             if(!selectedAccount.equals("")) {
                                 session.setAttribute("selectedAccount", bank.findAccount(selectedAccount));
-//                                response.sendRedirect("transaction.jsp");
                             }
                         }
                         
@@ -100,10 +113,10 @@
                         <ul class="list-group" id="acctDetails" name="acctDetails">
 
                             <%
-                            
-
-                            if (request.getParameter("cboAccountList") != null ){
-                                Account acct = new Account(request.getParameter("cboAccountList"));
+                                                                  
+                            if (session.getAttribute("selectedAccount") != null ){
+                                Account acct = (Account) session.getAttribute("selectedAccount");
+                                System.out.println(acct.getBalance());
 
                                 out.print("<b><li class='list-group-item'>Account Type: </b>" + acct.getAccountType() + "</li>");
                                 out.print("<b><li class='list-group-item'>Balance: </b>" + acct.getBalance() + "</li>");
@@ -128,7 +141,15 @@
                         </div>
                         <ul class="list-group">
                             <li class="list-group-item">
-                                <a href="transactionui.jsp" target="_blank">View Transactions</a>
+
+                            <% 
+                                if(session.getAttribute("selectedAccount") == null) {
+                                    out.print("<a href='#'>View Transactions</a>");
+                                } else {
+                                    out.print("<a href='transactionui.jsp' target='_blank'>View Transactions</a>");
+                                }
+                            %>
+
                             </li>
                             
                             <form method="POST" id="frmAccountAction" name="frmAccountAction" action="bankui.jsp">
@@ -150,7 +171,7 @@
                                           <div class="input-group-addon">.00</div>
                                         </div>
                                       </div>
-                                    <button type="submit" class="btn btn-primary" id="btnTransfer" name="btnTransfer" onclick="submitOnSelect();" >Transfer cash</button>
+                                    <button type="submit" class="btn btn-primary" id="btnTransfer" name="btnTransfer" >Transfer cash</button>
                                       
                                       
                                     
@@ -159,37 +180,49 @@
                             
                             </form>
                             <%
+
                             String transType = request.getParameter("cboTransactionType");
                             String amtStr = request.getParameter("txtTransactionAmount");
-                            Account acct = (Account) session.getAttribute("selectedAccount");
-                                                                        
+                            Account acct = (Account) session.getAttribute("selectedAccount");  
+                            //bank.findAccount(selectedAccount)                                                                                    
                             if (transType != null && amtStr != null && acct != null) {                             
-                                if (!transType.equals("trns") && !amtStr.equals("")) {                   
-                                 System.out.println(transType);
-                                
-                                        System.out.println("here");
-                                        double amt = Double.parseDouble(amtStr);                                
-                                     if (transType.equals("Deposit")) {
-                                            acct.deposit(amt);
-                                            System.out.println("Deposit");
-                                     } else if (transType.equals("Withdraw")) {
-                                         acct.withdraw(amt);
-                                         System.out.println("Withdraw");
-                                     } 
+                                if (!transType.equals("trns") && !amtStr.equals("")) {             
+                                    double amt = Double.parseDouble(amtStr);
+
+                                    if (transType.equals("Deposit")) {
+                                        acct.deposit(amt);
+                                    
+                                    } else if (transType.equals("Withdraw")) {
+                                        if (amt > acct.getBalance()) {
+
+                                            out.print("<p>test<p>");
+                                        } else {
+                                            acct.withdraw(amt);
+                                        }
+                                        
+                                    }
+                                    session.setAttribute("selectedAccount", acct); 
+                                    response.sendRedirect("bankui.jsp");
                                  }
-                                                                                                                              
-                                }
-                                %>
+
+                                                                                                                    
+                            }
+
+                            %>
+
                         </ul>            
                     </div>
                 </div>                
-            </div>
+            </div>            
         <!-- </form> -->
+        <p class="text-right"><a href="#">Log out</a></p>
+
     </div>
     <% 
     }else{
         response.sendRedirect("index.jsp");
     }
     %>
+
     </body>
 </html>
