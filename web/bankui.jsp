@@ -19,11 +19,37 @@
                 var frmAccountDetails = document.getElementById("frmAccountDetails");
                 
                 if(cboAccountList.value != ""){
+                    console.log("this was called");
                     frmAccountDetails.submit();
-                } 
+
+                }
+
+
+                  
+
+        // $(document).ready(function(){
+            // $("#myModal").modal('show');
+                // });
+
+            // }); 
                 
             }
+            // var frmHrefLogout = document.getElementById("frmHrefLogout");
+            // var l = $("#hrefLogout");
+            // console.log(l);
+            // l.addEventListener("click", function () {
+            //     frmHrefLogout.submit();
+            // });
         </script>
+
+        <script>
+            function testSubmit(){
+                var frmHrefLogout = $("#frmHrefLogout");
+                frmHrefLogout.submit();
+
+            }
+        </script>
+
         <title>Account Details</title>
     </head>
     <body>
@@ -61,9 +87,8 @@
 
             </div>
         </div>
-        <!-- <form id="frmAccoutnDetails" name="frmAccountDetails" action="bankui.jsp" method="Post"> -->
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6 col-md-offset-3">
                     <p>
                     <form action="bankui.jsp" method="POST" id="frmAccountDetails" name="frmAccountDetails">
                         <select name="cboAccountList" id="cboAccountList" class="form-control" onchange="submitOnSelect();">
@@ -73,7 +98,7 @@
                         
                         String selectedAccount;
 
-                        if (session.getAttribute("selectedAccount") != null) {
+                        if (session.getAttribute("selectedAccount") != null && request.getParameter("cboAccountList") == null) {
                             Account a = (Account) session.getAttribute("selectedAccount");
                             selectedAccount = a.getAccountID();
                         } else {
@@ -81,7 +106,6 @@
                         }
  
                         for (int i = 0; i <= accts.size() - 1; i++){ 
-                            //String selectedAccount = request.getParameter("cboAccountList");
                             if (selectedAccount == null) {
                                 selectedAccount = "";
                             }  
@@ -94,6 +118,7 @@
                             if(!selectedAccount.equals("")) {
                                 session.setAttribute("selectedAccount", bank.findAccount(selectedAccount));
                             }
+
                         }
                         
                         %>
@@ -105,7 +130,7 @@
 
             </div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 col-md-offset-3">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h3 class="panel-title">Account Details</h3>
@@ -134,7 +159,9 @@
                         </ul>            
                     </div>
                 </div>
-                <div class="col-md-6">
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h3 class="panel-title">Account Actions</h3>
@@ -151,34 +178,21 @@
                             %>
 
                             </li>
-                            
-                            <form method="POST" id="frmAccountAction" name="frmAccountAction" action="bankui.jsp">
-                            
-                                <li class="list-group-item">
+                            <li class="list-group-item">
+                                <form method="POST" id="frmAccountAction" name="frmAccountAction" action="bankui.jsp" class="form-group form-inline">                                                                                        
                                     <select name="cboTransactionType" id="cboTransactionType" class="form-control">
                                         <option value="trns">Transaction Type:</option>
                                         <option value="Deposit">Deposit</option>
                                         <option value="Withdraw">Withdraw</option>
                                     </select>
-                                </li>
-                                <li class="list-group-item">
-                                    
-                                      <div class="form-group">
-                                        <label class="sr-only" for="txtTransactionAmount">Amount (in dollars)</label>
-                                        <div class="input-group">
-                                          <div class="input-group-addon">$</div>
-                                          <input type="text" class="form-control" id="txtTransactionAmount" name="txtTransactionAmount" placeholder="Amount">
-                                          <div class="input-group-addon">.00</div>
-                                        </div>
-                                      </div>
-                                    <button type="submit" class="btn btn-primary" id="btnTransfer" name="btnTransfer" >Transfer cash</button>
-                                      
-                                      
-                                    
-                                </li>
-
+                                <!-- </li> -->
+                                <!-- <li class="list-group-item">  -->                                   
+                                                                              
+                                      <input type="text" class="form-control" id="txtTransactionAmount" name="txtTransactionAmount" placeholder="Amount">
+                                      <button type="submit" class="btn btn-primary" id="btnTransfer" name="btnTransfer">Transfer cash</button>
+                                </form>        
+                            </li>                                                            
                             
-                            </form>
                             <%
 
                             String transType = request.getParameter("cboTransactionType");
@@ -201,7 +215,7 @@
                                         }
                                         
                                     }
-                                    session.setAttribute("selectedAccount", acct); 
+                                    session.setAttribute("selectedAccount", acct);
                                     response.sendRedirect("bankui.jsp");
                                  }
 
@@ -213,9 +227,44 @@
                         </ul>            
                     </div>
                 </div>                
-            </div>            
+            </div> 
+        <!-- <form method="POST" id="frmHrefLogout" name="frmHrefLogout"> -->
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <p class="text-right"><a href="logout.jsp" id="hrefLogout" name="hrefLogout" >Log out</a></p>
+                </div>
+            </div>
         <!-- </form> -->
-        <p class="text-right"><a href="#">Log out</a></p>
+  <!--       <button class="btn btn-primary" data-toggle"modal" data-target="myModal" id="myModal">
+            Logout
+        </button>
+
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+        <% 
+            System.out.println(request.getParameter("frmHrefLogout"));            
+            if (request.getParameter("frmHrefLogout") != null) {
+                session.invalidate();            
+            }
+            
+        %>
 
     </div>
     <% 
